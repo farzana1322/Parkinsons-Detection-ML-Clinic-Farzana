@@ -33,7 +33,6 @@ Whether used in research settings or as a prototype for real-world screening too
 
 ## 🚀 How to Run Locally
 
-```bash
 git clone https://github.com/farzana1322/Parkinsons-Detection-ML-Clinic-Farzana.git
 cd Parkinsons-Detection-ML-Clinic-Farzana
 pip install -r requirements.txt
