@@ -81,6 +81,9 @@ if os.path.exists("X_test_final.csv") and os.path.exists("y_test_final.csv"):
         X_test = pd.read_csv("X_test_final.csv")
         y_test = pd.read_csv("y_test_final.csv")["label"]
 
+        # Debug line to check shapes
+        st.write(f"X_test shape: {X_test.shape}, y_test shape: {y_test.shape}")
+
         y_pred = model.predict(X_test)
 
         accuracy = accuracy_score(y_test, y_pred)
