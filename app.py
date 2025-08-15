@@ -3,6 +3,7 @@ import librosa
 import numpy as np
 import pandas as pd
 import pickle
+from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 
 # Load model
 model = pickle.load(open("model.pkl", "rb"))
@@ -69,3 +70,23 @@ if st.session_state.result:
         file_name='batch_parkinsons_predictions.csv',
         mime='text/csv'
     )
+
+# Evaluation Metrics (optional block)
+st.subheader("📊 Model Evaluation Metrics")
+try:
+    X_test = pd.read_csv("X_test.csv")
+    y_test = pd.read_csv("y_test.csv")
+    y_pred = model.predict(X_test)
+
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    conf_matrix = confusion_matrix(y_test, y_pred)
+
+    st.write(f"**Accuracy:** {accuracy:.2f}")
+    st.write(f"**Precision:** {precision:.2f}")
+    st.write(f"**Recall:** {recall:.2f}")
+    st.write("**Confusion Matrix:**")
+    st.write(conf_matrix)
+except Exception as e:
+    st.warning("Evaluation metrics not available. Please upload X_test.csv and y_test.csv.")
