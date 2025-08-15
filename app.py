@@ -74,10 +74,10 @@ if st.session_state.result:
 
 # Evaluation Metrics
 st.subheader("📊 Model Evaluation Metrics")
-if os.path.exists("X_test.csv") and os.path.exists("y_test.csv"):
+if os.path.exists("X_test_final.csv") and os.path.exists("y_test_final.csv"):
     try:
-        X_test = pd.read_csv("X_test.csv")
-        y_test = pd.read_csv("y_test.csv")["label"]  # ✅ FIXED: Extract 'label' column
+        X_test = pd.read_csv("X_test_final.csv")
+        y_test = pd.read_csv("y_test_final.csv")["label"]
 
         y_pred = model.predict(X_test)
 
@@ -94,4 +94,4 @@ if os.path.exists("X_test.csv") and os.path.exists("y_test.csv"):
     except Exception as e:
         st.warning("Error loading evaluation metrics. Please check file format.")
 else:
-    st.warning("Evaluation metrics not available. Please upload X_test.csv and y_test.csv.")
+    st.warning("Evaluation metrics not available. Please upload X_test_final.csv and y_test_final.csv.")
