@@ -11,9 +11,13 @@ model = pickle.load(open("model.pkl", "rb"))
 st.title("Parkinson's Detection from Voice")
 uploaded_file = st.file_uploader("Upload your voice (.wav)", type=["wav"])
 
+# Initialize session state
+if "result" not in st.session_state:
+    st.session_state.result = None
+
 if uploaded_file is not None:
     y, sr = librosa.load(uploaded_file, sr=None)
-    
+
     # Feature extraction
     features = []
     features.append(np.mean(librosa.feature.zero_crossing_rate(y)))
@@ -29,15 +33,17 @@ if uploaded_file is not None:
 
     if st.button("Predict"):
         prediction = model.predict(features)
-        result = "Parkinson's Positive" if prediction[0] == 1 else "Parkinson's Negative"
-        st.success(f"Prediction: {result}")
+        st.session_state.result = "Parkinson's Positive" if prediction[0] == 1 else "Parkinson's Negative"
 
-        # Download button
-        output_df = pd.DataFrame({'Prediction': [result]})
-        csv = output_df.to_csv(index=False).encode('utf-8')
-        st.download_button(
-            label="Download Prediction as CSV",
-            data=csv,
-            file_name='parkinsons_prediction.csv',
-            mime='text/csv'
-        )
+if st.session_state.result:
+    st.success(f"Prediction: {st.session_state.result}")
+
+    # Download button
+    output_df = pd.DataFrame({'Prediction': [st.session_state.result]})
+    csv = output_df.to_csv(index=False).encode('utf-8')
+    st.download_button(
+        label="Download Prediction as CSV",
+        data=csv,
+        file_name='parkinsons_prediction.csv',
+        mime='text/csv'
+    )
