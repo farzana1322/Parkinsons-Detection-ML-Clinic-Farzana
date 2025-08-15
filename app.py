@@ -17,7 +17,7 @@ if uploaded_file is not None:
     # Feature extraction
     features = []
     features.append(np.mean(librosa.feature.zero_crossing_rate(y)))
-    features.append(np.mean(librosa.feature.rms(y)))
+    features.append(np.mean(librosa.feature.rms(y=y)[0]))
     features.append(np.mean(librosa.feature.spectral_centroid(y=y, sr=sr)))
     features.append(np.mean(librosa.feature.spectral_bandwidth(y=y, sr=sr)))
     features.append(np.mean(librosa.feature.spectral_rolloff(y=y, sr=sr)))
