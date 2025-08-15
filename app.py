@@ -75,15 +75,13 @@ if st.session_state.result:
 # 📊 Model Evaluation Metrics
 st.subheader("📊 Model Evaluation Metrics")
 
-if os.path.exists("X_test_clean_final.csv") and os.path.exists("y_test_clean_final.csv"):
+if os.path.exists("X_test_clinical.csv") and os.path.exists("y_test_clinical.csv"):
     try:
-        # Force numeric types to avoid Excel formatting issues
-        X_test = pd.read_csv("X_test_clean_final.csv", dtype=float)
-        y_test = pd.read_csv("y_test_clean_final.csv")["label"].astype(int)
+        X_test = pd.read_csv("X_test_clinical.csv")
+        y_test = pd.read_csv("y_test_clinical.csv")["label"].astype(int)
 
         st.write(f"X_test shape: {X_test.shape}, y_test shape: {y_test.shape}")
 
-        # Predict and calculate metrics
         y_pred = model.predict(X_test)
 
         accuracy = accuracy_score(y_test, y_pred)
@@ -100,4 +98,4 @@ if os.path.exists("X_test_clean_final.csv") and os.path.exists("y_test_clean_fin
     except Exception as e:
         st.error(f"Error loading evaluation metrics: {e}")
 else:
-    st.warning("Evaluation metrics not available. Please upload X_test_clean_final.csv and y_test_clean_final.csv.")
+    st.warning("Evaluation metrics not available. Please upload X_test_clinical.csv and y_test_clinical.csv.")
