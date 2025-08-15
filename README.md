@@ -1,3 +1,42 @@
+# Parkinson’s Detection ML Clinic App
+
+🎯 **Live Demo**: [Click to Launch App](https://parkinsons-detection-ml-clinic-farzana-lrualqrejpwdikb9ktyuoa.streamlit.app)
+
+This Streamlit app predicts Parkinson’s disease from voice recordings using machine learning. It extracts acoustic features from `.wav` files and classifies them using a trained model. Built for clinical research visibility and recruiter review.
+
+---
+
+## 🧠 Features
+
+- Upload `.wav` voice samples
+- Extract 22+ acoustic features using `librosa`
+- Predict Parkinson’s status using a trained ML model
+- Download prediction as CSV
+- Clean, responsive UI built with Streamlit
+
+---
+
+## 🩺 Clinical Relevance
+
+Voice changes are early indicators of Parkinson’s. This app demonstrates how ML can assist in non-invasive screening and remote diagnostics.
+
+---
+
+## 🚀 Technologies Used
+
+- Python, Streamlit
+- Librosa, NumPy, Pandas
+- Scikit-learn, Pickle
+
+---
+
+## 📁 Files
+
+- `app.py`: Streamlit interface and prediction logic
+- `model.pkl`: Trained classifier
+- `requirements.txt`: Dependencies
+
+
 # 🧠 Parkinson's Detection ML Clinic – Farzana
 
 A voice-based machine learning app that predicts Parkinson’s disease using acoustic biomarkers extracted from `.wav` recordings. Built with Streamlit and scikit-learn.
