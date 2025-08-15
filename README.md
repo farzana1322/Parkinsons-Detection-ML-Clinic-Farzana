@@ -1,39 +1,56 @@
-# 🧠 Parkinson’s Detection ML Clinic – Farzana
+# 🧠 Parkinson's Detection ML Clinic – Farzana
 
-This project presents a voice-based machine learning solution for the early detection of Parkinson’s disease, developed with clinical research applications in mind. By analyzing subtle vocal impairments—often among the earliest signs of Parkinson’s—this tool aims to support timely diagnosis and intervention.
-
-It combines:
-- 🎙️ **Librosa** for extracting acoustic features  
-- 🧠 **scikit-learn** for predictive modeling  
-- 🌐 **Streamlit** for building an intuitive, clinician-friendly interface
-
-Whether used in research settings or as a prototype for real-world screening tools, this app reflects a commitment to **accessible, data-driven healthcare innovation**.
+A voice-based machine learning app that predicts Parkinson’s disease using acoustic biomarkers extracted from `.wav` recordings. Built with Streamlit and scikit-learn.
 
 ---
 
-## 🔬 Features
-- Extracts vocal biomarkers from `.wav` files
-- Predicts Parkinson’s likelihood using trained ML models
-- Interactive web app for clinicians and researchers
-- Clean UI with real-time feedback
+## 🧬 Clinical Relevance
+
+Parkinson’s disease often presents with subtle vocal impairments before motor symptoms become pronounced. This tool leverages acoustic biomarkers—MFCCs, spectral features, and RMS energy—to support early detection. It aligns with modern trends in telemedicine and AI-driven diagnostics, and can be adapted for use in clinical trials, outpatient screening, or remote patient monitoring.
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Features
 
-| Tool           | Purpose                     |
-|----------------|-----------------------------|
-| Python         | Core programming language   |
-| Librosa        | Audio feature extraction    |
-| scikit-learn   | Machine learning models     |
-| Streamlit      | Web app interface           |
-| Pandas & NumPy | Data handling & preprocessing |
+- Upload `.wav` voice recordings
+- Extract 22 vocal features using `librosa`
+- Predict Parkinson’s status using RandomForestClassifier
+- Streamlit-based UI for easy interaction
+- Audio playback and prediction display
 
 ---
 
-## 🚀 How to Run Locally
+## ✅ Demo Status
 
-git clone https://github.com/farzana1322/Parkinsons-Detection-ML-Clinic-Farzana.git
-cd Parkinsons-Detection-ML-Clinic-Farzana
+Tested with real voice input recorded by the developer.  
+**Prediction: Parkinson’s Negative**  
+App successfully extracts features and returns prediction via Streamlit interface.
+
+---
+
+## ⚠️ Limitations & Future Work
+
+- Model trained on limited dataset; may not generalize across populations
+- Future improvements:
+  - Expand dataset with multilingual and age-diverse samples
+  - Integrate deep learning models
+  - Validate predictions with clinical trial data
+  - Add real-time voice recording functionality
+
+---
+
+## 🛠️ How to Run Locally
+
+```bash
 pip install -r requirements.txt
 streamlit run app.py
+
+
+
+
+
+
+
+
+
+
