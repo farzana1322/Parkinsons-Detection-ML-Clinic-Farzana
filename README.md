@@ -14,6 +14,7 @@ Parkinson’s disease often presents with subtle vocal impairments before motor 
 
 - Upload `.wav` voice recordings
 - Extract 22 vocal features using `librosa`
+***Note: These 22 features are extracted from a single `.wav` voice recording using `librosa`—not 22 separate recordings. This includes MFCCs, spectral features, and RMS energy.***
 - Predict Parkinson’s status using RandomForestClassifier
 - Streamlit-based UI for easy interaction
 - Audio playback and prediction display
