@@ -74,14 +74,14 @@ if st.session_state.result:
         mime='text/csv'
     )
 
-# Evaluation Metrics
+# 📊 Model Evaluation Metrics
 st.subheader("📊 Model Evaluation Metrics")
-if os.path.exists("X_test_final.csv") and os.path.exists("y_test_final.csv"):
+if os.path.exists("X_test_clean.csv") and os.path.exists("y_test_clean.csv"):
     try:
-        X_test = pd.read_csv("X_test_final.csv")
-        y_test = pd.read_csv("y_test_final.csv")["label"]
+        X_test = pd.read_csv("X_test_clean.csv")
+        y_test = pd.read_csv("y_test_clean.csv")["label"]
 
-        # Debug line to check shapes
+        # Debug shape check
         st.write(f"X_test shape: {X_test.shape}, y_test shape: {y_test.shape}")
 
         y_pred = model.predict(X_test)
@@ -99,4 +99,4 @@ if os.path.exists("X_test_final.csv") and os.path.exists("y_test_final.csv"):
     except Exception as e:
         st.warning("Error loading evaluation metrics. Please check file format.")
 else:
-    st.warning("Evaluation metrics not available. Please upload X_test_final.csv and y_test_final.csv.")
+    st.warning("Evaluation metrics not available. Please upload X_test_clean.csv and y_test_clean.csv.")
