@@ -44,6 +44,7 @@ App successfully extracts features and returns prediction via Streamlit interfac
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
+```
 
 ## 📚 Project Walkthrough
 
