@@ -6,6 +6,8 @@ import pickle
 import os
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 
+# Triggering rebuild to reload model.pkl
+
 # Load model
 model = pickle.load(open("model.pkl", "rb"))
 
