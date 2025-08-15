@@ -8,7 +8,25 @@ import pickle
 # Load model
 model = pickle.load(open("model.pkl", "rb"))
 
-st.title("Parkinson's Detection from Voice")
+# Sidebar UI
+st.sidebar.title("🧠 Parkinson's Detection App")
+st.sidebar.markdown("""
+Upload a `.wav` voice sample to check for Parkinson's indicators using machine learning.
+
+**Steps:**
+1. Record a voice sample (preferably sustained vowel sounds)
+2. Save as `.wav` format
+3. Upload using the main panel
+4. Click **Predict** to view result
+5. Download prediction as CSV
+
+📎 [Download Sample .wav](https://github.com/farzana1322/Parkinsons-Detection-ML-Clinic-Farzana/raw/main/sample_voice.wav)
+
+⚠️ **Disclaimer:** This app is for educational and research purposes only. It is not a diagnostic tool.
+""")
+
+# Main UI
+st.title("🎙️ Parkinson's Detection from Voice")
 uploaded_file = st.file_uploader("Upload your voice (.wav)", type=["wav"])
 
 # Initialize session state
