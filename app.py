@@ -3,6 +3,7 @@ import librosa
 import numpy as np
 import pandas as pd
 import pickle
+import os
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 
 # Load model
@@ -71,22 +72,25 @@ if st.session_state.result:
         mime='text/csv'
     )
 
-# Evaluation Metrics (optional block)
+# Evaluation Metrics
 st.subheader("📊 Model Evaluation Metrics")
-try:
-    X_test = pd.read_csv("X_test.csv")
-    y_test = pd.read_csv("y_test.csv")
-    y_pred = model.predict(X_test)
+if os.path.exists("X_test.csv") and os.path.exists("y_test.csv"):
+    try:
+        X_test = pd.read_csv("X_test.csv")
+        y_test = pd.read_csv("y_test.csv")
+        y_pred = model.predict(X_test)
 
-    accuracy = accuracy_score(y_test, y_pred)
-    precision = precision_score(y_test, y_pred)
-    recall = recall_score(y_test, y_pred)
-    conf_matrix = confusion_matrix(y_test, y_pred)
+        accuracy = accuracy_score(y_test, y_pred)
+        precision = precision_score(y_test, y_pred)
+        recall = recall_score(y_test, y_pred)
+        conf_matrix = confusion_matrix(y_test, y_pred)
 
-    st.write(f"**Accuracy:** {accuracy:.2f}")
-    st.write(f"**Precision:** {precision:.2f}")
-    st.write(f"**Recall:** {recall:.2f}")
-    st.write("**Confusion Matrix:**")
-    st.write(conf_matrix)
-except Exception as e:
+        st.write(f"**Accuracy:** {accuracy:.2f}")
+        st.write(f"**Precision:** {precision:.2f}")
+        st.write(f"**Recall:** {recall:.2f}")
+        st.write("**Confusion Matrix:**")
+        st.write(conf_matrix)
+    except Exception as e:
+        st.warning("Error loading evaluation metrics. Please check file format.")
+else:
     st.warning("Evaluation metrics not available. Please upload X_test.csv and y_test.csv.")
