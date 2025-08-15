@@ -77,7 +77,8 @@ st.subheader("📊 Model Evaluation Metrics")
 if os.path.exists("X_test.csv") and os.path.exists("y_test.csv"):
     try:
         X_test = pd.read_csv("X_test.csv")
-        y_test = pd.read_csv("y_test.csv")
+        y_test = pd.read_csv("y_test.csv")["label"]  # ✅ FIXED: Extract 'label' column
+
         y_pred = model.predict(X_test)
 
         accuracy = accuracy_score(y_test, y_pred)
