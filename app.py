@@ -6,8 +6,6 @@ import pickle
 import os
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 
-# Triggering rebuild to reload model.pkl
-
 # Load model
 model = pickle.load(open("model.pkl", "rb"))
 
@@ -76,12 +74,11 @@ if st.session_state.result:
 
 # 📊 Model Evaluation Metrics
 st.subheader("📊 Model Evaluation Metrics")
-if os.path.exists("X_test_clean.csv") and os.path.exists("y_test_clean.csv"):
+if os.path.exists("X_test_clean_final.csv") and os.path.exists("y_test_clean_final.csv"):
     try:
-        X_test = pd.read_csv("X_test_clean.csv")
-        y_test = pd.read_csv("y_test_clean.csv")["label"]
+        X_test = pd.read_csv("X_test_clean_final.csv")
+        y_test = pd.read_csv("y_test_clean_final.csv")["label"]
 
-        # Debug shape check
         st.write(f"X_test shape: {X_test.shape}, y_test shape: {y_test.shape}")
 
         y_pred = model.predict(X_test)
@@ -99,4 +96,4 @@ if os.path.exists("X_test_clean.csv") and os.path.exists("y_test_clean.csv"):
     except Exception as e:
         st.warning("Error loading evaluation metrics. Please check file format.")
 else:
-    st.warning("Evaluation metrics not available. Please upload X_test_clean.csv and y_test_clean.csv.")
+    st.warning("Evaluation metrics not available. Please upload X_test_clean_final.csv and y_test_clean_final.csv.")
