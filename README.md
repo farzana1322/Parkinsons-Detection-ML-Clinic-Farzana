@@ -8,10 +8,12 @@ This Streamlit app predicts Parkinson’s disease from voice recordings using ma
 
 ## 🧠 Features
 
-- Upload `.wav` voice samples
-- Extract 22+ acoustic features using `librosa`
-- Predict Parkinson’s status using a trained ML model
-- Download prediction as CSV
+- Upload `.wav` voice samples  
+- Extract 22+ acoustic features using `librosa`  
+- Predict Parkinson’s status using a trained ML model  
+- Real-time audio playback of uploaded `.wav` files  
+- Model confidence score display (if supported by classifier)  
+- Download prediction as CSV  
 - Clean, responsive UI built with Streamlit
 
 ---
@@ -24,18 +26,19 @@ Voice changes are early indicators of Parkinson’s. This app demonstrates how M
 
 ## 🚀 Technologies Used
 
-- Python, Streamlit
-- Librosa, NumPy, Pandas
+- Python, Streamlit  
+- Librosa, NumPy, Pandas  
 - Scikit-learn, Pickle
 
 ---
 
 ## 📁 Files
 
-- `app.py`: Streamlit interface and prediction logic
-- `model.pkl`: Trained classifier
+- `app.py`: Streamlit interface and prediction logic  
+- `model.pkl`: Trained classifier  
 - `requirements.txt`: Dependencies
 
+---
 
 # 🧠 Parkinson's Detection ML Clinic – Farzana
 
@@ -51,11 +54,11 @@ Parkinson’s disease often presents with subtle vocal impairments before motor 
 
 ## 🚀 Features
 
-- Upload `.wav` voice recordings
-- Extract 22 vocal features using `librosa`
-***Note: These 22 features are extracted from a single `.wav` voice recording using `librosa`—not 22 separate recordings. This includes MFCCs, spectral features, and RMS energy.***
-- Predict Parkinson’s status using RandomForestClassifier
-- Streamlit-based UI for easy interaction
+- Upload `.wav` voice recordings  
+- Extract 22 vocal features using `librosa`  
+  ***Note: These 22 features are extracted from a single `.wav` voice recording using `librosa`—not 22 separate recordings. This includes MFCCs, spectral features, and RMS energy.***  
+- Predict Parkinson’s status using RandomForestClassifier  
+- Streamlit-based UI for easy interaction  
 - Audio playback and prediction display
 
 ---
@@ -70,11 +73,11 @@ App successfully extracts features and returns prediction via Streamlit interfac
 
 ## ⚠️ Limitations & Future Work
 
-- Model trained on limited dataset; may not generalize across populations
-- Future improvements:
-  - Expand dataset with multilingual and age-diverse samples
-  - Integrate deep learning models
-  - Validate predictions with clinical trial data
+- Model trained on limited dataset; may not generalize across populations  
+- Future improvements:  
+  - Expand dataset with multilingual and age-diverse samples  
+  - Integrate deep learning models  
+  - Validate predictions with clinical trial data  
   - Add real-time voice recording functionality
 
 ---
@@ -84,7 +87,7 @@ App successfully extracts features and returns prediction via Streamlit interfac
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
-```
+'''
 
 ## 📚 Project Walkthrough
 
