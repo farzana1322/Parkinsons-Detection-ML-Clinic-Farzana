@@ -104,5 +104,11 @@ This section provides a step-by-step guide to how the project was built, making 
 
 ---
 
+## 📎 Sample Voice File
+
+📎 [Download Sample .wav](https://github.com/farzana1322/Parkinsons-Detection-ML-Clinic-Farzana/raw/main/test_voice.wav)
+
+---
+
 Built with ❤️ by Mohammed Farzana Begum  
 Clinical AI aspirant | Caregiver | Python learner
