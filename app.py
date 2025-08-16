@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pickle
 import os
-from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 
 # Load model
 model = pickle.load(open("model.pkl", "rb"))
@@ -33,7 +33,6 @@ uploaded_files = st.file_uploader("Upload voice files (.wav)", type=["wav"], acc
 # Initialize session state
 if "result" not in st.session_state:
     st.session_state.result = None
-
 results = []
 
 if uploaded_files and st.button("Predict"):
@@ -79,22 +78,31 @@ if os.path.exists("X_test_clinical.csv") and os.path.exists("y_test_clinical.csv
     try:
         X_test = pd.read_csv("X_test_clinical.csv")
         y_test = pd.read_csv("y_test_clinical.csv")["label"].astype(int)
-
         st.write(f"X_test shape: {X_test.shape}, y_test shape: {y_test.shape}")
 
         y_pred = model.predict(X_test)
-
         accuracy = accuracy_score(y_test, y_pred)
         precision = precision_score(y_test, y_pred)
         recall = recall_score(y_test, y_pred)
+        f1 = f1_score(y_test, y_pred)
         conf_matrix = confusion_matrix(y_test, y_pred)
 
         st.write(f"**Accuracy:** {accuracy:.2f}")
         st.write(f"**Precision:** {precision:.2f}")
         st.write(f"**Recall:** {recall:.2f}")
+        st.write(f"**F1-Score:** {f1:.2f}")
         st.write("**Confusion Matrix:**")
         st.write(conf_matrix)
 
+        # 🧠 Clinical Interpretation Block
+        st.markdown("### 🧠 Clinical Interpretation")
+        st.write("""
+        - **Accuracy** reflects overall prediction correctness.
+        - **Precision** ensures fewer false positives (important for avoiding misdiagnosis).
+        - **Recall** highlights sensitivity—how well the model detects actual Parkinson’s cases.
+        - **F1-Score** balances precision and recall, ideal for clinical screening.
+        """)
+        
     except Exception as e:
         st.error(f"Error loading evaluation metrics: {e}")
 else:
