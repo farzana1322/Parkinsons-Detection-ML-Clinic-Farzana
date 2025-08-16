@@ -28,6 +28,7 @@ Upload `.wav` voice samples to check for Parkinson's indicators using machine le
 
 # Main UI
 st.title("🎙️ Parkinson's Detection from Voice")
+st.markdown("## 🎙️ Voice Upload & Prediction")
 uploaded_files = st.file_uploader("Upload voice files (.wav)", type=["wav"], accept_multiple_files=True)
 
 # Initialize session state
@@ -72,8 +73,7 @@ if st.session_state.result:
     )
 
 # 📊 Model Evaluation Metrics
-st.subheader("📊 Model Evaluation Metrics")
-
+st.markdown("## 📊 Model Evaluation")
 if os.path.exists("X_test_clinical.csv") and os.path.exists("y_test_clinical.csv"):
     try:
         X_test = pd.read_csv("X_test_clinical.csv")
@@ -87,23 +87,31 @@ if os.path.exists("X_test_clinical.csv") and os.path.exists("y_test_clinical.csv
         f1 = f1_score(y_test, y_pred)
         conf_matrix = confusion_matrix(y_test, y_pred)
 
-        st.write(f"**Accuracy:** {accuracy:.2f}")
-        st.write(f"**Precision:** {precision:.2f}")
-        st.write(f"**Recall:** {recall:.2f}")
-        st.write(f"**F1-Score:** {f1:.2f}")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.write(f"**Accuracy:** {accuracy:.2f}")
+            st.write(f"**Precision:** {precision:.2f}")
+        with col2:
+            st.write(f"**Recall:** {recall:.2f}")
+            st.write(f"**F1-Score:** {f1:.2f}")
+
         st.write("**Confusion Matrix:**")
         st.write(conf_matrix)
 
         # 🧠 Clinical Interpretation Block
-        st.markdown("### 🧠 Clinical Interpretation")
+        st.markdown("## 🧠 Clinical Interpretation")
         st.write("""
         - **Accuracy** reflects overall prediction correctness.
         - **Precision** ensures fewer false positives (important for avoiding misdiagnosis).
         - **Recall** highlights sensitivity—how well the model detects actual Parkinson’s cases.
         - **F1-Score** balances precision and recall, ideal for clinical screening.
         """)
-        
+
     except Exception as e:
         st.error(f"Error loading evaluation metrics: {e}")
 else:
     st.warning("Evaluation metrics not available. Please upload X_test_clinical.csv and y_test_clinical.csv.")
+
+# Footer Disclaimer
+st.markdown("---")
+st.markdown("🔒 This app is for educational and research purposes only. Not intended for clinical diagnosis.")
