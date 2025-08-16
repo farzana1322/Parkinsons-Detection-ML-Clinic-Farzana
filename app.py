@@ -21,14 +21,14 @@ Upload `.wav` voice samples to check for Parkinson's indicators using machine le
 4. Click **Predict** to view results
 5. Download all predictions as CSV
 
-📎 [Download Sample .wav](https://github.com/farzana1322/Parkinsons-Detection-ML-Clinic-Farzana/raw/main/sample_voice.wav)
+📎 [Download Sample .wav](https://github.com/farzana1322/Parkinsons-Detection-ML-Clinic-Farzana/raw/main/test_voice.wav)
 
 ⚠️ **Disclaimer:** This app is for educational and research purposes only. It is not a diagnostic tool.
 """)
 
 # Main UI
 st.title("🎙️ Parkinson's Detection from Voice")
-st.markdown("## 🎙️ Voice Upload & Prediction")
+st.markdown("## 🎙️ Voice Upload")
 uploaded_files = st.file_uploader("Upload voice files (.wav)", type=["wav"], accept_multiple_files=True)
 
 # Initialize session state
@@ -36,15 +36,17 @@ if "result" not in st.session_state:
     st.session_state.result = None
 results = []
 
-if uploaded_files and st.button("Predict"):
+# Always-visible Predict button
+predict_clicked = st.button("🔍 Predict")
+
+if predict_clicked and uploaded_files:
+    st.markdown("## 🔍 Prediction Results")
     for file in uploaded_files:
-        # 🔊 Voice Playback
         st.markdown(f"#### 🔊 Playing: {file.name}")
         audio_bytes = file.read()
         st.audio(audio_bytes, format='audio/wav')
-        file.seek(0)  # Reset for librosa
+        file.seek(0)
 
-        # Feature extraction
         y, sr = librosa.load(file, sr=None)
         features = []
         features.append(np.mean(librosa.feature.zero_crossing_rate(y)))
@@ -61,7 +63,6 @@ if uploaded_files and st.button("Predict"):
         result = "Parkinson's Positive" if prediction[0] == 1 else "Parkinson's Negative"
         st.success(f"{file.name}: {result}")
 
-        # 🧪 Model Confidence Score
         if hasattr(model, "predict_proba"):
             try:
                 prob = model.predict_proba(features)[0][1]
@@ -75,16 +76,19 @@ if uploaded_files and st.button("Predict"):
 
     st.session_state.result = results
 
-# Download results
+# 📥 Download Results
+st.markdown("## 📥 Download Predictions")
 if st.session_state.result:
     output_df = pd.DataFrame(st.session_state.result, columns=["Filename", "Prediction"])
     csv = output_df.to_csv(index=False).encode('utf-8')
     st.download_button(
-        label="Download All Predictions as CSV",
+        label="📥 Download All Predictions as CSV",
         data=csv,
         file_name='batch_parkinsons_predictions.csv',
         mime='text/csv'
     )
+else:
+    st.info("No predictions available yet. Upload files and click Predict.")
 
 # 📊 Model Evaluation Metrics
 st.markdown("## 📊 Model Evaluation")
@@ -112,7 +116,6 @@ if os.path.exists("X_test_clinical.csv") and os.path.exists("y_test_clinical.csv
         st.write("**Confusion Matrix:**")
         st.write(conf_matrix)
 
-        # 🧠 Clinical Interpretation Block
         st.markdown("## 🧠 Clinical Interpretation")
         st.write("""
         - **Accuracy** reflects overall prediction correctness.
