@@ -38,9 +38,13 @@ results = []
 
 if uploaded_files and st.button("Predict"):
     for file in uploaded_files:
-        y, sr = librosa.load(file, sr=None)
+        # 🔊 Voice Playback
+        st.markdown(f"#### 🔊 Playing: {file.name}")
+        st.audio(file.read(), format='audio/wav')
+        file.seek(0)
 
         # Feature extraction
+        y, sr = librosa.load(file, sr=None)
         features = []
         features.append(np.mean(librosa.feature.zero_crossing_rate(y)))
         features.append(np.mean(librosa.feature.rms(y=y)[0]))
@@ -54,15 +58,19 @@ if uploaded_files and st.button("Predict"):
         features = np.array(features).reshape(1, -1)
         prediction = model.predict(features)
         result = "Parkinson's Positive" if prediction[0] == 1 else "Parkinson's Negative"
+        st.success(f"{file.name}: {result}")
+
+        # 🧪 Model Confidence Score
+        if hasattr(model, "predict_proba"):
+            prob = model.predict_proba(features)[0][1]
+            st.write(f"🧪 Model confidence: {prob:.2f}")
+
         results.append((file.name, result))
 
     st.session_state.result = results
 
-# Display results and download
+# Download results
 if st.session_state.result:
-    for filename, result in st.session_state.result:
-        st.success(f"{filename}: {result}")
-
     output_df = pd.DataFrame(st.session_state.result, columns=["Filename", "Prediction"])
     csv = output_df.to_csv(index=False).encode('utf-8')
     st.download_button(
