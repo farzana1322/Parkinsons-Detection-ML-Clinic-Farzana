@@ -7,7 +7,11 @@ import os
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 
 # Load model
-model = pickle.load(open("model.pkl", "rb"))
+try:
+    model = pickle.load(open("model.pkl", "rb"))
+except Exception as e:
+    st.error(f"❌ Error loading model: {e}")
+    st.stop()
 
 # Sidebar UI
 st.sidebar.title("🧠 Parkinson's Detection App")
@@ -39,42 +43,53 @@ results = []
 # Always-visible Predict button
 predict_clicked = st.button("🔍 Predict")
 
-if predict_clicked and uploaded_files:
-    st.markdown("## 🔍 Prediction Results")
-    for file in uploaded_files:
-        st.markdown(f"#### 🔊 Playing: {file.name}")
-        audio_bytes = file.read()
-        st.audio(audio_bytes, format='audio/wav')
-        file.seek(0)
-
-        y, sr = librosa.load(file, sr=None)
-        features = []
-        features.append(np.mean(librosa.feature.zero_crossing_rate(y)))
-        features.append(np.mean(librosa.feature.rms(y=y)[0]))
-        features.append(np.mean(librosa.feature.spectral_centroid(y=y, sr=sr)))
-        features.append(np.mean(librosa.feature.spectral_bandwidth(y=y, sr=sr)))
-        features.append(np.mean(librosa.feature.spectral_rolloff(y=y, sr=sr)))
-        mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=17)
-        for mfcc in mfccs:
-            features.append(np.mean(mfcc))
-
-        features = np.array(features).reshape(1, -1)
-        prediction = model.predict(features)
-        result = "Parkinson's Positive" if prediction[0] == 1 else "Parkinson's Negative"
-        st.success(f"{file.name}: {result}")
-
-        if hasattr(model, "predict_proba"):
+if predict_clicked:
+    if not uploaded_files:
+        st.warning("Please upload at least one .wav file before clicking Predict.")
+    else:
+        st.markdown("## 🔍 Prediction Results")
+        for file in uploaded_files:
             try:
-                prob = model.predict_proba(features)[0][1]
-                st.write(f"🧪 Model confidence: {prob:.2f}")
-            except:
-                st.info("Model confidence score not available for this model type.")
-        else:
-            st.info("Model confidence score not supported by this model.")
+                st.markdown(f"#### 🔊 Playing: {file.name}")
+                audio_bytes = file.read()
+                st.audio(audio_bytes, format='audio/wav')
+                file.seek(0)
 
-        results.append((file.name, result))
+                y, sr = librosa.load(file, sr=None)
+                st.write(f"✅ Audio loaded: {file.name} | Sample rate: {sr}")
 
-    st.session_state.result = results
+                features = []
+                features.append(np.mean(librosa.feature.zero_crossing_rate(y)))
+                features.append(np.mean(librosa.feature.rms(y=y)[0]))
+                features.append(np.mean(librosa.feature.spectral_centroid(y=y, sr=sr)))
+                features.append(np.mean(librosa.feature.spectral_bandwidth(y=y, sr=sr)))
+                features.append(np.mean(librosa.feature.spectral_rolloff(y=y, sr=sr)))
+                mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=17)
+                for mfcc in mfccs:
+                    features.append(np.mean(mfcc))
+
+                features = np.array(features).reshape(1, -1)
+                st.write(f"✅ Features extracted: {len(features[0])} dimensions")
+
+                prediction = model.predict(features)
+                result = "Parkinson's Positive" if prediction[0] == 1 else "Parkinson's Negative"
+                st.success(f"{file.name}: {result}")
+
+                if hasattr(model, "predict_proba"):
+                    try:
+                        prob = model.predict_proba(features)[0][1]
+                        st.write(f"🧪 Model confidence: {prob:.2f}")
+                    except Exception as e:
+                        st.info(f"⚠️ Confidence score not available: {e}")
+                else:
+                    st.info("Model confidence score not supported by this model.")
+
+                results.append((file.name, result))
+
+            except Exception as e:
+                st.error(f"❌ Error processing {file.name}: {e}")
+
+        st.session_state.result = results
 
 # 📥 Download Results
 st.markdown("## 📥 Download Predictions")
