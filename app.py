@@ -40,8 +40,9 @@ if uploaded_files and st.button("Predict"):
     for file in uploaded_files:
         # 🔊 Voice Playback
         st.markdown(f"#### 🔊 Playing: {file.name}")
-        st.audio(file.read(), format='audio/wav')
-        file.seek(0)
+        audio_bytes = file.read()
+        st.audio(audio_bytes, format='audio/wav')
+        file.seek(0)  # Reset for librosa
 
         # Feature extraction
         y, sr = librosa.load(file, sr=None)
@@ -62,8 +63,13 @@ if uploaded_files and st.button("Predict"):
 
         # 🧪 Model Confidence Score
         if hasattr(model, "predict_proba"):
-            prob = model.predict_proba(features)[0][1]
-            st.write(f"🧪 Model confidence: {prob:.2f}")
+            try:
+                prob = model.predict_proba(features)[0][1]
+                st.write(f"🧪 Model confidence: {prob:.2f}")
+            except:
+                st.info("Model confidence score not available for this model type.")
+        else:
+            st.info("Model confidence score not supported by this model.")
 
         results.append((file.name, result))
 
